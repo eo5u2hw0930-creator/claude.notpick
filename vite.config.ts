@@ -14,13 +14,14 @@ function swAssetInjector(): Plugin {
         let sw = readFileSync(swPath, 'utf-8');
 
         // Collect all built asset files
-        const assets: string[] = ['/', '/index.html', '/manifest.json', '/icons/icon.svg', '/icons/icon-maskable.svg', '/icons/icon-192.png', '/icons/icon-512.png'];
+        const base = '/claude.notpick/';
+        const assets: string[] = [base, `${base}index.html`, `${base}manifest.json`, `${base}icons/icon.svg`, `${base}icons/icon-maskable.svg`, `${base}icons/icon-192.png`, `${base}icons/icon-512.png`];
 
         const assetsDir = join(outDir, 'assets');
         try {
           const files = readdirSync(assetsDir);
           for (const f of files) {
-            assets.push(`/assets/${f}`);
+            assets.push(`${base}assets/${f}`);
           }
         } catch {}
 
@@ -47,6 +48,7 @@ function swAssetInjector(): Plugin {
 
 export default defineConfig({
   root: '.',
+  base: '/claude.notpick/',
   build: {
     outDir: 'dist',
   },

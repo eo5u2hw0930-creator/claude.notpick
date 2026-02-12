@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head><title>Icon Generator</title></head>
+<body>
+<p>Right-click each canvas and "Save image as..." with the filename shown.</p>
+<script>
+const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+const maskableSizes = [192, 512];
+
+function drawIcon(ctx, s, maskable) {
+  const p = maskable ? s * 0.1 : 0;
+  const area = s - p * 2;
+
+  // Background
+  const grad = ctx.createLinearGradient(0, 0, s, s);
+  grad.addColorStop(0, '#1a1a2e');
+  grad.addColorStop(1, '#16213e');
+  ctx.fillStyle = grad;
+  if (maskable) {
+    ctx.fillRect(0, 0, s, s);
+  } else {
+    const r = s * 0.15;
+    ctx.beginPath();
+    ctx.moveTo(r, 0); ctx.lineTo(s-r, 0); ctx.quadraticCurveTo(s, 0, s, r);
+    ctx.lineTo(s, s-r); ctx.quadraticCurveTo(s, s, s-r, s);
+    ctx.lineTo(r, s); ctx.quadraticCurveTo(0, s, 0, s-r);
+    ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath(); ctx.fill();
+  }
+
+  const cx = s/2, cy = s/2;
+  const scale = s / 512;
+
+  // Waveform
+  ctx.strokeStyle = '#e94560';
+  ctx.lineWidth = 6 * scale;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  const wave = [[80,256],[110,200],[130,280],[160,180],[190,300],[210,220],[240,290],[260,190],[290,310],[310,210],[340,270],[360,200],[390,280],[410,240],[440,256]];
+  wave.forEach(([x,y], i) => { i === 0 ? ctx.moveTo(x*scale, y*scale) : ctx.lineTo(x*scale, y*scale); });
+  ctx.stroke();
+
+  // Notes
+  ctx.fillStyle = '#e94560';
+  ctx.beginPath(); ctx.arc(130*scale, 380*scale, 18*scale, 0, Math.PI*2); ctx.fill();
+  ctx.fillRect(146*scale, 310*scale, 5*scale, 70*scale);
+  ctx.beginPath(); ctx.arc(200*scale, 370*scale, 18*scale, 0, Math.PI*2); ctx.fill();
+  ctx.fillRect(216*scale, 300*scale, 5*scale, 70*scale);
+  ctx.fillRect(146*scale, 308*scale, 75*scale, 6*scale);
+
+  // Text
+  ctx.fillStyle = '#eaeaea';
+  ctx.font = `700 ${48*scale}px system-ui, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('NotPick', cx, 460*scale);
+}
+
+for (const size of sizes) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  drawIcon(c.getContext('2d'), size, false);
+  document.body.appendChild(c);
+  const label = document.createElement('p');
+  label.textContent = `icon-${size}.png`;
+  document.body.appendChild(label);
+  // Auto download
+  c.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `icon-${size}.png`;
+  });
+}
+for (const size of maskableSizes) {
+  const c = document.createElement('canvas');
+  c.width = c.height = size;
+  drawIcon(c.getContext('2d'), size, true);
+  document.body.appendChild(c);
+  const label = document.createElement('p');
+  label.textContent = `icon-maskable-${size}.png`;
+  document.body.appendChild(label);
+}
+</script>
+</body>
+</html>

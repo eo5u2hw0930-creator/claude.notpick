@@ -358,7 +358,101 @@ class DAWApp {
   }
 }
 
-// Boot
+// ===== PWA: Service Worker Registration =====
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+      try {
+        const reg = await navigator.serviceWorker.register('/sw.js');
+        console.log('[SW] Registered:', reg.scope);
+
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              showUpdateBanner(reg);
+            }
+          });
+        });
+      } catch (err) {
+        console.warn('[SW] Registration failed:', err);
+      }
+    });
+  }
+}
+
+function showUpdateBanner(reg: ServiceWorkerRegistration) {
+  const banner = document.createElement('div');
+  banner.id = 'update-banner';
+  banner.innerHTML = `
+    <span>새 버전이 있습니다!</span>
+    <button id="update-btn">업데이트</button>
+    <button id="dismiss-btn">나중에</button>
+  `;
+  document.body.appendChild(banner);
+
+  document.getElementById('update-btn')?.addEventListener('click', () => {
+    reg.waiting?.postMessage('skipWaiting');
+    window.location.reload();
+  });
+  document.getElementById('dismiss-btn')?.addEventListener('click', () => {
+    banner.remove();
+  });
+}
+
+// ===== PWA: Install Prompt =====
+let deferredPrompt: BeforeInstallPromptEvent | null = null;
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
+function setupInstallPrompt() {
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e as BeforeInstallPromptEvent;
+    showInstallButton();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    hideInstallButton();
+    console.log('[PWA] App installed');
+  });
+}
+
+function showInstallButton() {
+  let btn = document.getElementById('pwa-install-btn');
+  if (!btn) {
+    btn = document.createElement('button');
+    btn.id = 'pwa-install-btn';
+    btn.textContent = '📲 Install';
+    btn.title = '홈 화면에 추가';
+    btn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const result = await deferredPrompt.userChoice;
+      if (result.outcome === 'accepted') {
+        console.log('[PWA] Install accepted');
+      }
+      deferredPrompt = null;
+      hideInstallButton();
+    });
+    document.querySelector('.toolbar-right')?.prepend(btn);
+  }
+  btn.style.display = '';
+}
+
+function hideInstallButton() {
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'none';
+}
+
+// ===== Boot =====
 document.addEventListener('DOMContentLoaded', () => {
   new DAWApp();
+  registerServiceWorker();
+  setupInstallPrompt();
 });

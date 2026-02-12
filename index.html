@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>NotPick DAW</title>
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Top Toolbar -->
+    <header id="toolbar">
+      <div class="toolbar-left">
+        <span class="logo">NotPick</span>
+        <div class="tempo-control">
+          <label>BPM</label>
+          <input type="number" id="bpm-input" value="120" min="20" max="300" />
+        </div>
+        <div class="time-sig-control">
+          <select id="time-sig">
+            <option value="4/4">4/4</option>
+            <option value="3/4">3/4</option>
+            <option value="6/8">6/8</option>
+          </select>
+        </div>
+      </div>
+      <div class="toolbar-center">
+        <div class="transport-controls">
+          <button id="btn-rewind" class="transport-btn" title="Rewind">⏮</button>
+          <button id="btn-stop" class="transport-btn" title="Stop">⏹</button>
+          <button id="btn-play" class="transport-btn" title="Play">▶</button>
+          <button id="btn-record" class="transport-btn record-btn" title="Record">⏺</button>
+          <button id="btn-loop" class="transport-btn" title="Loop">🔁</button>
+        </div>
+        <div id="time-display" class="time-display">0:00.000</div>
+      </div>
+      <div class="toolbar-right">
+        <div class="tool-selector">
+          <button id="tool-select" class="tool-btn active" title="Select">↖</button>
+          <button id="tool-draw" class="tool-btn" title="Draw">✏</button>
+          <button id="tool-erase" class="tool-btn" title="Erase">⌫</button>
+          <button id="tool-slice" class="tool-btn" title="Slice">✂</button>
+        </div>
+        <button id="btn-piano-roll" class="tool-btn" title="Piano Roll">🎹</button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div id="main-content">
+      <!-- Track List (left panel) -->
+      <aside id="track-list">
+        <div id="track-headers"></div>
+        <button id="btn-add-track" class="add-track-btn">+ Track</button>
+      </aside>
+
+      <!-- Timeline / Arrangement View -->
+      <main id="arrangement">
+        <div id="timeline-ruler"></div>
+        <div id="timeline-canvas-wrapper">
+          <canvas id="timeline-canvas"></canvas>
+          <div id="playhead" class="playhead"></div>
+        </div>
+      </main>
+
+      <!-- Mixer / Effects Panel (bottom) -->
+      <footer id="bottom-panel">
+        <div id="panel-tabs">
+          <button class="panel-tab active" data-panel="mixer">Mixer</button>
+          <button class="panel-tab" data-panel="effects">Effects</button>
+          <button class="panel-tab" data-panel="piano-roll">Piano Roll</button>
+        </div>
+        <div id="panel-content">
+          <div id="mixer-panel" class="panel-view active"></div>
+          <div id="effects-panel" class="panel-view"></div>
+          <div id="piano-roll-panel" class="panel-view"></div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

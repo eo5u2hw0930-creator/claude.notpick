@@ -15,77 +15,14 @@ class DAWApp {
 
   currentTool: 'select' | 'draw' | 'erase' | 'slice' = 'select';
 
-  constructor() {
+  constructor(loadDemo = true) {
     this.engine = new AudioEngine();
 
-    // Create default tracks with demo content
-    const track1 = this.engine.addTrack('Synth Lead', 'Synth Lead');
-    const track2 = this.engine.addTrack('Bass', 'Synth Bass');
-    const track3 = this.engine.addTrack('Pad', 'Synth Pad');
-    const track4 = this.engine.addTrack('Pluck', 'Pluck');
-
-    // Add demo clips with notes
-    const clip1 = this.engine.addClip(track1.id, 0, 8);
-    clip1.name = 'Melody';
-    const melodyNotes = [
-      { pitch: 72, start: 0, dur: 0.5 },
-      { pitch: 74, start: 0.5, dur: 0.5 },
-      { pitch: 76, start: 1, dur: 1 },
-      { pitch: 79, start: 2, dur: 0.5 },
-      { pitch: 77, start: 2.5, dur: 0.5 },
-      { pitch: 76, start: 3, dur: 1 },
-      { pitch: 72, start: 4, dur: 1 },
-      { pitch: 74, start: 5, dur: 0.5 },
-      { pitch: 76, start: 5.5, dur: 0.5 },
-      { pitch: 79, start: 6, dur: 2 },
-    ];
-    for (const n of melodyNotes) {
-      this.engine.addNoteToClip(clip1.id, n.pitch, n.start, n.dur, 90);
-    }
-
-    const clip2 = this.engine.addClip(track2.id, 0, 8);
-    clip2.name = 'Bass Line';
-    const bassNotes = [
-      { pitch: 48, start: 0, dur: 1 },
-      { pitch: 48, start: 1, dur: 1 },
-      { pitch: 53, start: 2, dur: 1 },
-      { pitch: 53, start: 3, dur: 1 },
-      { pitch: 55, start: 4, dur: 1 },
-      { pitch: 55, start: 5, dur: 1 },
-      { pitch: 53, start: 6, dur: 2 },
-    ];
-    for (const n of bassNotes) {
-      this.engine.addNoteToClip(clip2.id, n.pitch, n.start, n.dur, 100);
-    }
-
-    const clip3 = this.engine.addClip(track3.id, 0, 8);
-    clip3.name = 'Pad Chords';
-    const padNotes = [
-      { pitch: 60, start: 0, dur: 4 }, { pitch: 64, start: 0, dur: 4 }, { pitch: 67, start: 0, dur: 4 },
-      { pitch: 65, start: 4, dur: 4 }, { pitch: 69, start: 4, dur: 4 }, { pitch: 72, start: 4, dur: 4 },
-    ];
-    for (const n of padNotes) {
-      this.engine.addNoteToClip(clip3.id, n.pitch, n.start, n.dur, 70);
-    }
-
-    const clip4 = this.engine.addClip(track4.id, 4, 4);
-    clip4.name = 'Pluck Arp';
-    const pluckNotes = [
-      { pitch: 72, start: 0, dur: 0.25 },
-      { pitch: 76, start: 0.25, dur: 0.25 },
-      { pitch: 79, start: 0.5, dur: 0.25 },
-      { pitch: 84, start: 0.75, dur: 0.25 },
-      { pitch: 79, start: 1, dur: 0.25 },
-      { pitch: 76, start: 1.25, dur: 0.25 },
-      { pitch: 72, start: 1.5, dur: 0.25 },
-      { pitch: 76, start: 1.75, dur: 0.25 },
-      { pitch: 79, start: 2, dur: 0.5 },
-      { pitch: 84, start: 2.5, dur: 0.5 },
-      { pitch: 79, start: 3, dur: 0.5 },
-      { pitch: 76, start: 3.5, dur: 0.5 },
-    ];
-    for (const n of pluckNotes) {
-      this.engine.addNoteToClip(clip4.id, n.pitch, n.start, n.dur, 80);
+    if (loadDemo) {
+      this.loadDemoProject();
+    } else {
+      // Empty project: single track
+      this.engine.addTrack('Track 1', 'Synth Lead');
     }
 
     // Initialize UI components
@@ -341,6 +278,72 @@ class DAWApp {
     }
   }
 
+  private loadDemoProject() {
+    const track1 = this.engine.addTrack('Synth Lead', 'Synth Lead');
+    const track2 = this.engine.addTrack('Bass', 'Synth Bass');
+    const track3 = this.engine.addTrack('Pad', 'Synth Pad');
+    const track4 = this.engine.addTrack('Pluck', 'Pluck');
+
+    const clip1 = this.engine.addClip(track1.id, 0, 8);
+    clip1.name = 'Melody';
+    for (const n of [
+      { pitch: 72, start: 0, dur: 0.5 },
+      { pitch: 74, start: 0.5, dur: 0.5 },
+      { pitch: 76, start: 1, dur: 1 },
+      { pitch: 79, start: 2, dur: 0.5 },
+      { pitch: 77, start: 2.5, dur: 0.5 },
+      { pitch: 76, start: 3, dur: 1 },
+      { pitch: 72, start: 4, dur: 1 },
+      { pitch: 74, start: 5, dur: 0.5 },
+      { pitch: 76, start: 5.5, dur: 0.5 },
+      { pitch: 79, start: 6, dur: 2 },
+    ]) {
+      this.engine.addNoteToClip(clip1.id, n.pitch, n.start, n.dur, 90);
+    }
+
+    const clip2 = this.engine.addClip(track2.id, 0, 8);
+    clip2.name = 'Bass Line';
+    for (const n of [
+      { pitch: 48, start: 0, dur: 1 },
+      { pitch: 48, start: 1, dur: 1 },
+      { pitch: 53, start: 2, dur: 1 },
+      { pitch: 53, start: 3, dur: 1 },
+      { pitch: 55, start: 4, dur: 1 },
+      { pitch: 55, start: 5, dur: 1 },
+      { pitch: 53, start: 6, dur: 2 },
+    ]) {
+      this.engine.addNoteToClip(clip2.id, n.pitch, n.start, n.dur, 100);
+    }
+
+    const clip3 = this.engine.addClip(track3.id, 0, 8);
+    clip3.name = 'Pad Chords';
+    for (const n of [
+      { pitch: 60, start: 0, dur: 4 }, { pitch: 64, start: 0, dur: 4 }, { pitch: 67, start: 0, dur: 4 },
+      { pitch: 65, start: 4, dur: 4 }, { pitch: 69, start: 4, dur: 4 }, { pitch: 72, start: 4, dur: 4 },
+    ]) {
+      this.engine.addNoteToClip(clip3.id, n.pitch, n.start, n.dur, 70);
+    }
+
+    const clip4 = this.engine.addClip(track4.id, 4, 4);
+    clip4.name = 'Pluck Arp';
+    for (const n of [
+      { pitch: 72, start: 0, dur: 0.25 },
+      { pitch: 76, start: 0.25, dur: 0.25 },
+      { pitch: 79, start: 0.5, dur: 0.25 },
+      { pitch: 84, start: 0.75, dur: 0.25 },
+      { pitch: 79, start: 1, dur: 0.25 },
+      { pitch: 76, start: 1.25, dur: 0.25 },
+      { pitch: 72, start: 1.5, dur: 0.25 },
+      { pitch: 76, start: 1.75, dur: 0.25 },
+      { pitch: 79, start: 2, dur: 0.5 },
+      { pitch: 84, start: 2.5, dur: 0.5 },
+      { pitch: 79, start: 3, dur: 0.5 },
+      { pitch: 76, start: 3.5, dur: 0.5 },
+    ]) {
+      this.engine.addNoteToClip(clip4.id, n.pitch, n.start, n.dur, 80);
+    }
+  }
+
   private setupStylusInteraction() {
     this.stylus.on('down', (e) => {
       this.timeline.handlePointerDown(e.state.x, e.state.y, this.currentTool);
@@ -450,14 +453,105 @@ function hideInstallButton() {
   if (btn) btn.style.display = 'none';
 }
 
-// ===== Boot =====
+// ===== Boot Sequence (Tablet DAW style) =====
+class BootSequence {
+  private loadingOverlay: HTMLElement;
+  private loadingBar: HTMLElement;
+  private loadingStatus: HTMLElement;
+  private startScreen: HTMLElement;
+
+  constructor() {
+    this.loadingOverlay = document.getElementById('loadingOverlay')!;
+    this.loadingBar = document.getElementById('loadingBar')!;
+    this.loadingStatus = document.getElementById('loadingStatus')!;
+    this.startScreen = document.getElementById('startScreen')!;
+  }
+
+  private setProgress(pct: number, status: string) {
+    this.loadingBar.style.width = `${pct}%`;
+    this.loadingStatus.textContent = status;
+  }
+
+  private wait(ms: number): Promise<void> {
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+  async run(opts: { fullscreen: boolean; demo: boolean }) {
+    // Show loading overlay
+    this.loadingOverlay.classList.add('active');
+
+    // Step 1: Request fullscreen
+    this.setProgress(5, 'Requesting display mode...');
+    await this.wait(200);
+    if (opts.fullscreen) {
+      try {
+        await document.documentElement.requestFullscreen();
+      } catch { /* user denied or unsupported */ }
+    }
+
+    // Step 2: Request wake lock (keep screen on for tablets)
+    this.setProgress(15, 'Acquiring wake lock...');
+    await this.wait(150);
+    try {
+      if ('wakeLock' in navigator) {
+        await (navigator as any).wakeLock.request('screen');
+      }
+    } catch { /* unsupported or denied */ }
+
+    // Step 3: Lock orientation to landscape
+    this.setProgress(25, 'Setting orientation...');
+    await this.wait(150);
+    try {
+      if (screen.orientation && 'lock' in screen.orientation) {
+        await (screen.orientation as any).lock('landscape');
+      }
+    } catch { /* unsupported */ }
+
+    // Step 4: Initialize audio engine
+    this.setProgress(35, 'Initializing audio engine...');
+    await this.wait(300);
+
+    // Step 5: Create DAW app
+    this.setProgress(50, 'Building workspace...');
+    await this.wait(200);
+    const app = new DAWApp(opts.demo);
+
+    // Step 6: Loading UI components
+    this.setProgress(65, 'Loading mixer...');
+    await this.wait(150);
+
+    this.setProgress(75, 'Loading effects...');
+    await this.wait(150);
+
+    this.setProgress(85, 'Loading piano roll...');
+    await this.wait(150);
+
+    // Step 7: Final rendering
+    this.setProgress(95, 'Rendering timeline...');
+    await this.wait(200);
+
+    this.setProgress(100, 'Ready');
+    await this.wait(300);
+
+    // Dismiss start screen
+    this.startScreen.classList.add('hidden');
+
+    // Force a resize after everything is visible
+    setTimeout(() => {
+      app.timeline.resize();
+      app.timeline.renderRuler();
+    }, 100);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  const startScreen = document.getElementById('startScreen');
   const startBtn = document.getElementById('startBtn');
+  const boot = new BootSequence();
 
   startBtn?.addEventListener('click', () => {
-    startScreen?.classList.add('hidden');
-    new DAWApp();
+    const fullscreen = (document.getElementById('chk-fullscreen') as HTMLInputElement)?.checked ?? true;
+    const demo = (document.getElementById('chk-demo') as HTMLInputElement)?.checked ?? true;
+    boot.run({ fullscreen, demo });
   });
 
   registerServiceWorker();

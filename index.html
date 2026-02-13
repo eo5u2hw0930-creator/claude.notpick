@@ -27,7 +27,26 @@
     <div class="start-logo">NotPick</div>
     <div class="start-subtitle">Mobile Music Studio</div>
     <button class="start-btn" id="startBtn">New Project</button>
+    <div class="start-actions">
+      <label class="start-option" id="opt-fullscreen">
+        <input type="checkbox" id="chk-fullscreen" checked />
+        <span>Fullscreen</span>
+      </label>
+      <label class="start-option" id="opt-demo">
+        <input type="checkbox" id="chk-demo" checked />
+        <span>Demo Project</span>
+      </label>
+    </div>
     <div class="start-version">v1.0.0</div>
+
+    <!-- Loading overlay (shown after clicking start) -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-title">Initializing...</div>
+      <div class="loading-bar-track">
+        <div class="loading-bar-fill" id="loadingBar"></div>
+      </div>
+      <div class="loading-status" id="loadingStatus">Preparing audio engine</div>
+    </div>
   </div>
 
   <div id="app">

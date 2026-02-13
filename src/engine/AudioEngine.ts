@@ -121,7 +121,7 @@ export class AudioEngine {
   }
 
   addTrack(name?: string, instrument = 'Synth Lead'): TrackState {
-    const colors = ['#e94560', '#f39c12', '#2ecc71', '#3498db', '#9b59b6', '#1abc9c', '#e67e22', '#e74c3c'];
+    const colors = ['#00ff88', '#ff3399', '#00d4ff', '#9966ff', '#ff6633', '#ffcc00', '#33ffaa', '#ff66aa'];
     const gainNode = this.ctx.createGain();
     const panNode = this.ctx.createStereoPanner();
     const analyserNode = this.ctx.createAnalyser();

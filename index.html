@@ -6,10 +6,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="theme-color" content="#1a1a2e" />
-  <meta name="description" content="태블릿 스타일러스 최적화 DAW" />
+  <meta name="theme-color" content="#00ff88" />
+  <meta name="description" content="NotPick - Mobile Music Studio" />
 
-  <title>NotPick DAW</title>
+  <title>NotPick - Mobile Music Studio</title>
 
   <!-- PWA Manifest -->
   <link rel="manifest" href="/manifest.json" />
@@ -21,6 +21,15 @@
   <link rel="stylesheet" href="/src/styles/main.css" />
 </head>
 <body>
+  <!-- Start Screen -->
+  <div class="start-screen" id="startScreen">
+    <div class="start-icon">🎵</div>
+    <div class="start-logo">NotPick</div>
+    <div class="start-subtitle">Mobile Music Studio</div>
+    <button class="start-btn" id="startBtn">New Project</button>
+    <div class="start-version">v1.0.0</div>
+  </div>
+
   <div id="app">
     <!-- Top Toolbar -->
     <header id="toolbar">

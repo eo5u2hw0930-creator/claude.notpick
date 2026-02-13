@@ -452,7 +452,14 @@ function hideInstallButton() {
 
 // ===== Boot =====
 document.addEventListener('DOMContentLoaded', () => {
-  new DAWApp();
+  const startScreen = document.getElementById('startScreen');
+  const startBtn = document.getElementById('startBtn');
+
+  startBtn?.addEventListener('click', () => {
+    startScreen?.classList.add('hidden');
+    new DAWApp();
+  });
+
   registerServiceWorker();
   setupInstallPrompt();
 });

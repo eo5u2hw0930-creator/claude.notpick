@@ -193,9 +193,9 @@ export class TimelineRenderer {
     // Track rows
     for (let i = 0; i < this.engine.tracks.length; i++) {
       const y = i * trackHeight;
-      ctx.fillStyle = i % 2 === 0 ? '#1a1a2e' : '#1e1e36';
+      ctx.fillStyle = i % 2 === 0 ? '#0a0a0f' : '#0e0e18';
       ctx.fillRect(0, y, w, trackHeight);
-      ctx.strokeStyle = '#2a3456';
+      ctx.strokeStyle = '#222244';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(0, y + trackHeight);
@@ -211,7 +211,7 @@ export class TimelineRenderer {
     for (let beat = startBeat; beat <= endBeat; beat++) {
       const x = beat * this.pixelsPerBeat;
       const isBar = beat % beatsPerBar === 0;
-      ctx.strokeStyle = isBar ? '#3a4476' : '#252a42';
+      ctx.strokeStyle = isBar ? '#2a2a55' : '#181830';
       ctx.lineWidth = isBar ? 1.5 : 0.5;
       ctx.beginPath();
       ctx.moveTo(x, 0);
@@ -223,9 +223,9 @@ export class TimelineRenderer {
     if (this.engine.loopEnabled) {
       const loopStartX = this.engine.loopStart * this.pixelsPerBeat;
       const loopEndX = this.engine.loopEnd * this.pixelsPerBeat;
-      ctx.fillStyle = 'rgba(233, 69, 96, 0.08)';
+      ctx.fillStyle = 'rgba(0, 255, 136, 0.06)';
       ctx.fillRect(loopStartX, 0, loopEndX - loopStartX, h);
-      ctx.strokeStyle = 'rgba(233, 69, 96, 0.3)';
+      ctx.strokeStyle = 'rgba(0, 255, 136, 0.25)';
       ctx.setLineDash([4, 4]);
       ctx.beginPath();
       ctx.moveTo(loopStartX, 0);
@@ -273,7 +273,7 @@ export class TimelineRenderer {
 
         // Clip name
         ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-        ctx.font = '11px -apple-system, sans-serif';
+        ctx.font = "11px 'JetBrains Mono', monospace";
         ctx.fillText(clip.name, x + 6, y + 16);
 
         // Mini note visualization
@@ -313,9 +313,9 @@ export class TimelineRenderer {
       const isBar = beat % beatsPerBar === 0;
       if (isBar) {
         const bar = Math.floor(beat / beatsPerBar) + 1;
-        html += `<div style="position:absolute;left:${x}px;top:0;height:100%;border-left:1px solid #3a4476;padding-left:4px;font-size:10px;color:#8892b0;line-height:32px;">${bar}</div>`;
+        html += `<div style="position:absolute;left:${x}px;top:0;height:100%;border-left:1px solid #2a2a55;padding-left:4px;font-size:10px;color:#8888aa;line-height:32px;font-family:'JetBrains Mono',monospace;">${bar}</div>`;
       } else {
-        html += `<div style="position:absolute;left:${x}px;top:60%;height:40%;border-left:1px solid #252a42;"></div>`;
+        html += `<div style="position:absolute;left:${x}px;top:60%;height:40%;border-left:1px solid #181830;"></div>`;
       }
     }
     ruler.innerHTML = html;

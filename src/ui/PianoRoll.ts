@@ -205,7 +205,7 @@ export class PianoRoll {
     this.gridEl.style.width = `${width}px`;
     this.gridEl.style.height = `${height}px`;
     this.gridEl.style.position = 'relative';
-    this.gridEl.style.background = '#1a1a2e';
+    this.gridEl.style.background = '#0a0a0f';
 
     // Build grid lines using canvas-like approach with divs
     const blackNotes = new Set([1, 3, 6, 8, 10]);
@@ -217,8 +217,8 @@ export class PianoRoll {
       const isBlack = blackNotes.has(pitch % 12);
       const isC = pitch % 12 === 0;
       const y = i * this.noteHeight;
-      const bg = isBlack ? 'rgba(0,0,0,0.2)' : 'transparent';
-      const border = isC ? '1px solid #3a4476' : '1px solid #1e2240';
+      const bg = isBlack ? 'rgba(0,0,0,0.3)' : 'transparent';
+      const border = isC ? '1px solid #2a2a55' : '1px solid #161630';
       gridHTML += `<div style="position:absolute;left:0;top:${y}px;width:100%;height:${this.noteHeight}px;background:${bg};border-bottom:${border};"></div>`;
     }
 
@@ -228,7 +228,7 @@ export class PianoRoll {
       const x = b * this.pixelsPerBeat;
       const isBar = b % beatsPerBar === 0;
       const isBeat = b % 1 === 0;
-      const color = isBar ? '#3a4476' : (isBeat ? '#2a3050' : '#222640');
+      const color = isBar ? '#2a2a55' : (isBeat ? '#1a1a35' : '#141428');
       const w = isBar ? 1.5 : 0.5;
       gridHTML += `<div style="position:absolute;left:${x}px;top:0;width:${w}px;height:100%;background:${color};"></div>`;
     }
